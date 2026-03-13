@@ -1,7 +1,5 @@
 # KTP Management System
 
-Sistem manajemen KTP modern menggunakan Spring Boot 3 dan MySQL.
-
 ## Tampilan Aplikasi (Screenshots)
 
 Berikut adalah dokumentasi visual dari implementasi KTP Management System:
