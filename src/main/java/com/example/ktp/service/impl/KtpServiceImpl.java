@@ -1,9 +1,12 @@
 package com.example.ktp.service.impl;
 
 import com.example.ktp.dto.KtpDto;
+import com.example.ktp.entity.KtpEntity;
+import com.example.ktp.mapper.KtpMapper;
 import com.example.ktp.model.Ktp;
 import com.example.ktp.repository.KtpRepository;
 import com.example.ktp.service.KtpService;
+import com.example.ktp.util.KtpUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,78 +16,63 @@ import java.util.stream.Collectors;
 public class KtpServiceImpl implements KtpService {
 
     private final KtpRepository repository;
+    private final KtpMapper mapper;
 
-    public KtpServiceImpl(KtpRepository repository) {
+    public KtpServiceImpl(KtpRepository repository, KtpMapper mapper) {
         this.repository = repository;
-    }
-
-    private KtpDto mapToDto(Ktp ktp) {
-        KtpDto dto = new KtpDto();
-        dto.setId(ktp.getId());
-        dto.setNomorKtp(ktp.getNomorKtp());
-        dto.setNamaLengkap(ktp.getNamaLengkap());
-        dto.setAlamat(ktp.getAlamat());
-        dto.setTanggalLahir(ktp.getTanggalLahir());
-        dto.setJenisKelamin(ktp.getJenisKelamin());
-        return dto;
-    }
-
-    private Ktp mapToEntity(KtpDto dto) {
-        Ktp ktp = new Ktp();
-        ktp.setId(dto.getId());
-        ktp.setNomorKtp(dto.getNomorKtp());
-        ktp.setNamaLengkap(dto.getNamaLengkap());
-        ktp.setAlamat(dto.getAlamat());
-        ktp.setTanggalLahir(dto.getTanggalLahir());
-        ktp.setJenisKelamin(dto.getJenisKelamin());
-        return ktp;
+        this.mapper = mapper;
     }
 
     @Override
     public KtpDto create(KtpDto dto) {
         repository.findByNomorKtp(dto.getNomorKtp())
                 .ifPresent(x -> {
-                    throw new RuntimeException("Nomor KTP sudah ada");
+                    throw new RuntimeException(KtpUtil.ERROR_DUPLICATE);
                 });
 
-        Ktp ktp = repository.save(mapToEntity(dto));
-        return mapToDto(ktp);
+        Ktp model = mapper.requestToModel(dto);
+        KtpEntity entity = mapper.toEntity(model);
+        KtpEntity savedEntity = repository.save(entity);
+        
+        return mapper.toDto(mapper.toModel(savedEntity));
     }
 
     @Override
     public List<KtpDto> getAll() {
         return repository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(mapper::toModel)
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public KtpDto getById(Integer id) {
-        Ktp ktp = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Data tidak ditemukan"));
+        KtpEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException(KtpUtil.ERROR_NOT_FOUND));
 
-        return mapToDto(ktp);
+        return mapper.toDto(mapper.toModel(entity));
     }
 
     @Override
     public KtpDto update(Integer id, KtpDto dto) {
-        Ktp ktp = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Data tidak ditemukan"));
+        KtpEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException(KtpUtil.ERROR_NOT_FOUND));
 
-        ktp.setNomorKtp(dto.getNomorKtp());
-        ktp.setNamaLengkap(dto.getNamaLengkap());
-        ktp.setAlamat(dto.getAlamat());
-        ktp.setTanggalLahir(dto.getTanggalLahir());
-        ktp.setJenisKelamin(dto.getJenisKelamin());
+        entity.setNomorKtp(dto.getNomorKtp());
+        entity.setNamaLengkap(dto.getNamaLengkap());
+        entity.setAlamat(dto.getAlamat());
+        entity.setTanggalLahir(dto.getTanggalLahir());
+        entity.setJenisKelamin(dto.getJenisKelamin());
 
-        return mapToDto(repository.save(ktp));
+        KtpEntity updatedEntity = repository.save(entity);
+        return mapper.toDto(mapper.toModel(updatedEntity));
     }
 
     @Override
     public void delete(Integer id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Data tidak ditemukan");
+            throw new RuntimeException(KtpUtil.ERROR_NOT_FOUND);
         }
         repository.deleteById(id);
     }

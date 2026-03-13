@@ -1,14 +1,14 @@
 package com.example.ktp.repository;
 
-import com.example.ktp.model.Ktp;
+import com.example.ktp.entity.KtpEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface KtpRepository extends JpaRepository<Ktp, Integer> {
+public interface KtpRepository extends JpaRepository<KtpEntity, Integer> {
 
-    Optional<Ktp> findByNomorKtp(String nomorKtp);
+    Optional<KtpEntity> findByNomorKtp(String nomorKtp);
 
 }
