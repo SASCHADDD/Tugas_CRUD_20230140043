@@ -39,8 +39,11 @@ public class KtpController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Integer id) {
         service.delete(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Data berhasil dihapus!");
+        return ResponseEntity.ok(response);
     }
 
     @RestControllerAdvice
