@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTP Management System</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-id-card"></i> KTP Management</h1>
+            <p>Admin Dashboard for Resident Registry</p>
+        </header>
+
+        <div class="glass-card main-content">
+            <div class="form-section">
+                <h2 id="form-title">Add New KTP</h2>
+                <form id="ktp-form">
+                    <input type="hidden" id="ktp-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nomorKtp">Nomor KTP</label>
+                            <input type="text" id="nomorKtp" placeholder="16-digit ID number" required maxlength="16">
+                        </div>
+                        <div class="form-group">
+                            <label for="namaLengkap">Full Name</label>
+                            <input type="text" id="namaLengkap" placeholder="Enter full name" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="alamat">Address</label>
+                            <textarea id="alamat" placeholder="Enter complete address" required rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalLahir">Date of Birth</label>
+                            <input type="date" id="tanggalLahir" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jenisKelamin">Gender</label>
+                            <select id="jenisKelamin" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Save Data
+                        </button>
+                        <button type="button" id="cancel-btn" class="btn btn-secondary" style="display: none;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="separator">
+
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Resident Records</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="table-search" placeholder="Search residents...">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="ktp-table">
+                        <thead>
+                            <tr>
+                                <th>No. KTP</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Birth Date</th>
+                                <th>Gender</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ktp-list">
+                            <!-- Data will be loaded here via Ajax -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
