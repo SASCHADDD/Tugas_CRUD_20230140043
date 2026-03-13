@@ -3,12 +3,12 @@ package com.example.ktp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "ktp")
 @Data
-public class ktp {
+public class Ktp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -20,7 +20,7 @@ public class ktp {
 
     private String alamat;
 
-    private Date tanggalLahir;
+    private LocalDate tanggalLahir;
 
     private String jenisKelamin;
 }
