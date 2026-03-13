@@ -45,7 +45,7 @@ $(document).ready(function () {
                 renderTable(response);
             },
             error: function (xhr) {
-                showNotification('Error loading data: ' + getErrorMessage(xhr), 'error');
+                showNotification('Gagal memuat data: ' + getErrorMessage(xhr), 'error');
             }
         });
     }
@@ -57,12 +57,12 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function () {
-                showNotification('Data added successfully!', 'success');
+                showNotification('Data berhasil ditambahkan!', 'success');
                 resetForm();
                 loadKtpData();
             },
             error: function (xhr) {
-                showNotification('Error adding data: ' + getErrorMessage(xhr), 'error');
+                showNotification('Gagal menambahkan data: ' + getErrorMessage(xhr), 'error');
             }
         });
     }
@@ -74,27 +74,27 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function () {
-                showNotification('Data updated successfully!', 'success');
+                showNotification('Data berhasil diperbarui!', 'success');
                 resetForm();
                 loadKtpData();
             },
             error: function (xhr) {
-                showNotification('Error updating data: ' + getErrorMessage(xhr), 'error');
+                showNotification('Gagal memperbarui data: ' + getErrorMessage(xhr), 'error');
             }
         });
     }
 
     window.deleteKtp = function (id) {
-        if (confirm('Are you sure you want to delete this record?')) {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             $.ajax({
                 url: `${API_URL}/${id}`,
                 type: 'DELETE',
                 success: function () {
-                    showNotification('Data deleted successfully!', 'success');
+                    showNotification('Data berhasil dihapus!', 'success');
                     loadKtpData();
                 },
                 error: function (xhr) {
-                    showNotification('Error deleting data: ' + getErrorMessage(xhr), 'error');
+                    showNotification('Gagal menghapus data: ' + getErrorMessage(xhr), 'error');
                 }
             });
         }
@@ -112,15 +112,15 @@ $(document).ready(function () {
                 $('#tanggalLahir').val(data.tanggalLahir);
                 $('#jenisKelamin').val(data.jenisKelamin);
 
-                $('#form-title').text('Update KTP Data');
-                $('#submit-btn').html('<i class="fas fa-save"></i> Update Data');
+                $('#form-title').text('Update Data KTP');
+                $('#submit-btn').html('<i class="fas fa-save"></i> Perbarui Data');
                 $('#cancel-btn').show();
                 
                 // Scroll to form
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
             error: function (xhr) {
-                showNotification('Error fetching data: ' + getErrorMessage(xhr), 'error');
+                showNotification('Gagal mengambil data: ' + getErrorMessage(xhr), 'error');
             }
         });
     };
@@ -130,7 +130,7 @@ $(document).ready(function () {
         $list.empty();
 
         if (data.length === 0) {
-            $list.append('<tr><td colspan="6" style="text-align: center; color: #94a3b8;">No records found.</td></tr>');
+            $list.append('<tr><td colspan="6" style="text-align: center; color: #94a3b8;">Tidak ada data yang ditemukan.</td></tr>');
             return;
         }
 
@@ -160,8 +160,8 @@ $(document).ready(function () {
     function resetForm() {
         $('#ktp-form')[0].reset();
         $('#ktp-id').val('');
-        $('#form-title').text('Add New KTP');
-        $('#submit-btn').html('<i class="fas fa-plus"></i> Save Data');
+        $('#form-title').text('Tambah KTP Baru');
+        $('#submit-btn').html('<i class="fas fa-plus"></i> Simpan Data');
         $('#cancel-btn').hide();
     }
 
@@ -177,9 +177,9 @@ $(document).ready(function () {
     function getErrorMessage(xhr) {
         try {
             const response = JSON.parse(xhr.responseText);
-            return response.message || response.error || 'Server error';
+            return response.message || response.error || 'Terjadi kesalahan server';
         } catch (e) {
-            return xhr.statusText || 'Unknown error';
+            return xhr.statusText || 'Kesalahan tidak diketahui';
         }
     }
 });

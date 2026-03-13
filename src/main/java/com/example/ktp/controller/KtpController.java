@@ -2,9 +2,12 @@ package com.example.ktp.controller;
 
 import com.example.ktp.dto.KtpDto;
 import com.example.ktp.service.KtpService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ktp")
@@ -38,5 +41,15 @@ public class KtpController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         service.delete(id);
+    }
+
+    @RestControllerAdvice
+    public static class GlobalExceptionHandler {
+        @ExceptionHandler(RuntimeException.class)
+        public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }
