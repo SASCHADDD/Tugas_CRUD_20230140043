@@ -1,6 +1,10 @@
 package com.example.ktp.controller;
 
+import com.example.ktp.dto.KtpDto;
+import com.example.ktp.service.KtpService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/ktp")
