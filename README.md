@@ -20,5 +20,4 @@ Berikut adalah dokumentasi visual dari implementasi KTP Management System:
 
 ### Verifikasi Akhir
 ![Final Check 1](screenshots/ss9.png)
-![Final Check 2](screenshots/ss10.png)
 
